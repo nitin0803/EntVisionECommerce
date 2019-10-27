@@ -1,0 +1,27 @@
+﻿<div ng-controller="productsStoreCtrl">    
+    <table id="table" class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">PartNumber</th>
+                <th scope="col">Product Category</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity Per Unit</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="product in paginatedProducts">
+                <th scope="row">{{product.PartNumber}}</th>
+                <td>{{product.CategoryName}}</td>
+                <td>{{product.ProductName}}</td>
+                <td>{{product.QuantityPerUnit}}</td>
+                <td>{{product.UnitPrice}}</td>
+                <td>{{product.Discontinued}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <uib-pagination ng-model="currentPage" total-items="Products.length" max-size="maxSize" items-per-page="numPerPage" boundary-links="true"></uib-pagination>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿.header {
+    width: 800px;
+    height: 80px;
+    text-align: center;
+    background-color: #BDBDBD;
+}
+
+.footer {
+    background-color: #BDBDBD;
+    text-align: center;
+}
+
+.leftMenu {
+    height: 500px;
+    background-color: #42f5b3;
+    width: 150px;
+}
+
+.mainContent {
+    height: 500px;
+    width: 750px;
+    background-color: #f56c42;
+}
+
+a {
+    display: block;
+    padding: 5px
+}
+
+.nav, .pagination a, .carousel, .panel-title a {
+    cursor: pointer;
+}
+
+.qty 
+{
+  width: 50px;
+}
+
+input[type=text]
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    border: 1px solid #003399;
+    scrollbar-arrow-color:black;
+}
+/*
+h1 {
+  text-align: center;
+}
+
+h4 {
+  text-align: center;
+}
+
+.table {
+  width: 600px;
+}*/

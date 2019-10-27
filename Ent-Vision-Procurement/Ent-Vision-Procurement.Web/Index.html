@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+
+    <!--Angular Scripts-->
+    <script src="/Scripts/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+    <script src="/Scripts/angular-route.min.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.5.js"></script>
+    <!--Google Chart scripts-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/1.0.0-beta.1/ng-google-chart.min.js" type="text/javascript"></script>
+
+    <script src="Scripts/angular-aria.min.js"></script>
+    <script src="Scripts/angular-animate.min.js"></script>
+    <script src="Scripts/angular-material.min.js"></script>
+
+    <!--Custome scrtips-->
+    <script src="/AngularApp/mainApp.js"></script>
+    <script src="/AngularApp/Controllers/productsStoreCtrl.js"></script>
+    <script src="/AngularApp/Controllers/barChartCtrl.js"></script>
+    <script src="/AngularApp/Controllers/placeOrderCtrl.js"></script>
+    
+
+    <!--Bootstrap-->
+    <link href="Content/angular-material.min.css" rel="stylesheet" />
+    <link href="/Css/Styles.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" rel="stylesheet">
+    <title></title>
+    <base href="/" />
+</head>
+<body ng-app="EntVisionStoreModule">
+    <table style="font-family: Arial">
+        <tr>
+            <td colspan="2" class="header">
+                <h1>
+                    Ent-Vision Shopping
+                </h1>
+            </td>
+        </tr>
+        <tr>
+            <td class="leftMenu">
+                <a style="color:blueviolet" href="products">View Products</a>
+                <a href="placeorder">Place Order</a>
+                <a href="vieworder">View Order</a>
+            </td>
+            <td class="mainContent">
+                <ng-view></ng-view>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="footer">
+                <b>Website Footer</b>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
