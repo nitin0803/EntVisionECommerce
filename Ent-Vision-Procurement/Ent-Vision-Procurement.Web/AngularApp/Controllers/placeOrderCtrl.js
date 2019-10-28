@@ -9,15 +9,24 @@
     });
 
     $scope.cart = [];
+    $scope.TotalPrice = 0;
     $scope.addItem = function (selectedProduct) {
         if ((selectedProduct.qty < 1) || (selectedProduct.qty === undefined))
             return showAlert();
         $scope.cart.push(selectedProduct);
-        alert($scope.cart.length);
+        $scope.TotalPrice += selectedProduct.qty * selectedProduct.UnitPrice;
     };
 
     $scope.SubmitOrder = function () {
-        return alert($scope.cart.length);
+        var orderDetails = [];
+        for (var i = 0; i < $scope.cart.length; i++) {
+            var partAndQuantity = {
+                "PartNumber": $scope.cart[i].PartNumber,
+                "Quantity": $scope.cart[i].qty
+            }
+            orderDetails.push(partAndQuantity);
+        };
+
         var requestBody = {
             "RequiredDate": $scope.requiredDate,
             "ShipName": $scope.customerName,
@@ -26,20 +35,7 @@
             "ShipPostalCode": $scope.postalCode,
             "ShipCountry": $scope.country,
             "CustomerID": "nitin0803",
-            "orderDetails": [
-                {
-                    "PartNumber": "I10",
-                    "Quantity": 10
-                },
-                {
-                    "PartNumber": "C1",
-                    "Quantity": 40
-                },
-                {
-                    "PartNumber": "Q12",
-                    "Quantity": 10
-                }
-            ]
+            "orderDetails": orderDetails
         };
         
         $http.post("http://localhost:3616/Store/PlaceTransportOrder", JSON.stringify(requestBody))

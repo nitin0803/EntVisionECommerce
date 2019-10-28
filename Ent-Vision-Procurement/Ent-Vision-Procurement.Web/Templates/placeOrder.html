@@ -59,9 +59,11 @@
                                         <td>{{product.QuantityPerUnit}}</td>
                                         <td>{{product.UnitPrice|currency}}</td>
                                         <td>{{product.qty}}</td>
+                                        <td>{{product.qty * product.UnitPrice | currency }}</td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <h5>Total Price = {{TotalPrice|currency}}</h5>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn-primary" data-dismiss="modal">Close</button>

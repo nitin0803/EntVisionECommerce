@@ -45,5 +45,20 @@ namespace Ent_Vision_Procurement.Repository
             this.storeDBContext.Orders.Add(order);
             this.storeDBContext.SaveChanges();
         }
+
+        public void UpdateInventory(int orderId)
+        {
+            var orderDetails = this.storeDBContext.OrderDetails.Where(x => x.OrderId == orderId).ToList();
+            foreach (var item in orderDetails)
+            {
+                var partNumber = item.PartNumber;
+                var productInventoryRecord = this.storeDBContext.Inventories.Where(x => x.PartNumber == item.PartNumber).FirstOrDefault();
+                if(productInventoryRecord !=null)
+                {
+                    productInventoryRecord.UnitsOnOrder += item.Quantity;
+                    this.storeDBContext.SaveChanges();
+                }
+            }
+        }
     }
 }

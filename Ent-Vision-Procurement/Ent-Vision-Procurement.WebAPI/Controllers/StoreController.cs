@@ -71,6 +71,7 @@ namespace Ent_Vision_Procurement.WebAPI.Controllers
         public void PlaceTransportOrder([FromBody] Order order)
         {
             this.repository.InsertSalesOrder(order);
+            this.repository.UpdateInventory(order.OrderId);
         }
 
         [HttpGet]
