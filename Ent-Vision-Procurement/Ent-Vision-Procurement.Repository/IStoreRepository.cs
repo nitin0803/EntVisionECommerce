@@ -14,6 +14,7 @@ namespace Ent_Vision_Procurement.Repository
         List<Product> GetAll();
         List<Product> GetProductsByCategory(string categoryName);
         List<Product> GetProductByPartNumber(string partNumber);
+        List<OrderDetail> GetOrderDetails(int? orderId);
         void InsertSalesOrder(Order order);
         void UpdateInventory(int orderId);
     }

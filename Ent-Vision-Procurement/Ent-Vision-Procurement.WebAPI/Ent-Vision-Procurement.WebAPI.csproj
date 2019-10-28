@@ -177,6 +177,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoriesAndProducts.cs" />
+    <Compile Include="Models\OrderedProduct.cs" />
     <Compile Include="Models\StoreServiceInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

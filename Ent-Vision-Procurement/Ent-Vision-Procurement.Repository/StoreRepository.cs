@@ -60,5 +60,13 @@ namespace Ent_Vision_Procurement.Repository
                 }
             }
         }
+
+        public List<OrderDetail> GetOrderDetails(int? orderId)
+        {
+            if (orderId == null)
+                return this.storeDBContext.OrderDetails.ToList();
+
+            return this.storeDBContext.OrderDetails.Where(x => x.OrderId == orderId).ToList();
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace Ent_Vision_Procurement.WebAPI.Controllers
     public class StoreController : ApiController
     {
         private readonly IStoreRepository repository;
+        private List<string> categories = new List<string>();
         public StoreController()
         {
             if (this.repository == null)
@@ -27,10 +28,33 @@ namespace Ent_Vision_Procurement.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Products")]
-        public IEnumerable<Product> GetAllProducts()
+        [Route("GetAllProducts")]
+        public IEnumerable<OrderedProduct> GetAllProducts([FromUri] int? orderId = null)
         {
-            return this.repository.GetAll();
+            var result = new List<OrderedProduct>();
+            var allProducts = this.repository.GetAll();
+            var orderDetails = this.repository.GetOrderDetails(orderId);
+            foreach (var item in allProducts)
+            {
+                categories.Add(item.CategoryName);
+                var orderedQty = orderId == null ? 0 : orderDetails.Where(x => x.OrderId == orderId && x.PartNumber == item.PartNumber)
+                                                            .FirstOrDefault().Quantity;
+                var orderedProduct = new OrderedProduct
+                {
+                    PartNumber = item.PartNumber,
+                    CategoryName = item.CategoryName,
+                    ProductName = item.ProductName,
+                    QuantityPerUnit = item.QuantityPerUnit,
+                    UnitPrice = item.UnitPrice,
+                    OrderedQuantity = orderedQty,
+                    TotalPrice = item.UnitPrice * orderedQty,
+                    Available = item.Discontinued ? "No" : "Yes"
+                };
+                result.Add(orderedProduct);
+            }
+
+            return result;
+
         }
 
         [HttpGet]
@@ -54,16 +78,23 @@ namespace Ent_Vision_Procurement.WebAPI.Controllers
 
         [HttpPost]
         [Route("ProductsByCategory")]
-        public IEnumerable<Product> ProductsByCategory([FromBody] StoreServiceInput storeServiceInput)
+        public IEnumerable<OrderedProduct> ProductsByCategory([FromBody] StoreServiceInput storeServiceInput)
         {
-            return this.repository.GetProductsByCategory(storeServiceInput.CategoryName);
+            var allProducts = this.GetAllProducts();
+            if (string.Equals(storeServiceInput.CategoryName, "All", StringComparison.InvariantCultureIgnoreCase))
+                return allProducts;
+            return allProducts.Where(x=>x.CategoryName == storeServiceInput.CategoryName).ToList();
         }
 
         [HttpPost]
         [Route("ProductByPartNumber")]
-        public IEnumerable<Product> ProductByPartNumber([FromBody] StoreServiceInput storeServiceInput)
+        public IEnumerable<OrderedProduct> ProductByPartNumber([FromBody] StoreServiceInput storeServiceInput)
         {
-            return this.repository.GetProductByPartNumber(storeServiceInput.PartNumber);
+            var allProducts = this.GetAllProducts();
+            if (string.Equals(storeServiceInput.PartNumber, "All", StringComparison.InvariantCultureIgnoreCase))
+                return allProducts;
+
+            return allProducts.Where(x => x.PartNumber == storeServiceInput.PartNumber).ToList();
         }
 
         [HttpPost]
@@ -76,53 +107,25 @@ namespace Ent_Vision_Procurement.WebAPI.Controllers
 
         [HttpGet]
         [Route("CategoryAndQuantity")]
-        public Dictionary<string, int> ProductsOrderQuantityByCategories()
+        public Dictionary<string, int> ProductsOrderQuantityByCategories([FromUri] int? orderId = null)
         {
             Dictionary<string, int> result = new Dictionary<string, int>();
 
-            var products = this.GetAllProducts();
-            var categories = products.Select(x => x.CategoryName).Distinct().ToList();
+            var allProducts = this.GetAllProducts(orderId);
+            var categories = allProducts.Select(x => x.CategoryName).Distinct().ToList();
 
             foreach (var category in categories)
             {
                 var orderedQuantity = 0;
-                var categoryProducts = products.Where(x => x.CategoryName == category).ToList();
+                var categoryProducts = allProducts.Where(x => x.CategoryName == category).ToList();
                 foreach (var product in categoryProducts)
                 {
-                    ///// TBD
-                    orderedQuantity += 0;
+                    orderedQuantity += product.OrderedQuantity;
                 }
                 result.Add(category, orderedQuantity);
             }
 
             return result;
-        }
-        /*
-        // GET api/values
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }*/
-
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
         }
     }
 }

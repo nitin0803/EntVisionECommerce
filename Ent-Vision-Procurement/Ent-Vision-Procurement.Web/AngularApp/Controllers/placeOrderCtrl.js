@@ -1,7 +1,7 @@
 ﻿var placeOrderController = function ($scope, $http, $mdDialog) {
     $http({
         method: 'Get',
-        url: "http://localhost:3616/Store/Products"
+        url: "http://localhost:3616/Store/GetAllProducts"
     }).then(function (response) {
         $scope.Products = response.data;
         $scope.selectedProduct = $scope.Products[0];
@@ -16,6 +16,10 @@
         $scope.cart.push(selectedProduct);
         $scope.TotalPrice += selectedProduct.qty * selectedProduct.UnitPrice;
     };
+
+    $scope.ProductChange = function () {
+        $scope.selectedProduct.qty = 1;
+    }
 
     $scope.SubmitOrder = function () {
         var orderDetails = [];
